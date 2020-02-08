@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class loadFile {
-	public static void LoadDatabase(String FilePath) throws IOException
+	static String load_content = "";
+	public static String LoadDatabase(String FilePath) throws IOException
 	{
 		FileReader fr      = new FileReader(FilePath);
 		/*BufferedReader bfr = new BufferedReader(fr);*/
@@ -15,12 +16,14 @@ public class loadFile {
         BufferedReader bfr = new BufferedReader(
            new InputStreamReader(
                       new FileInputStream(FilePath), "UTF8"));
-		String tran = "";
-		while((tran=bfr.readLine())!=null)
+		String line_text = "";
+		while((line_text=bfr.readLine())!=null)
 		{
-			System.out.println(tran);
+			System.out.println(line_text);
+			load_content += line_text + "\n";
 		}
 		fr.close();
 		bfr.close();
+		return load_content;
 	}
 }

@@ -17,7 +17,7 @@ public class TextUI {
 			System.out.print("Please key in a file path: ");
 			Scanner scanner = new Scanner(System.in);
 			String path = scanner.nextLine();
-			/*C:\Users\life\eclipse-workspace\POSD_logic_circuit_1\src\com\shape\logic_circuit.txt*/
+			/*C:\Users\life\git\POSD_logic_circuit_1\POSD_logic_circuit\logic_circuit.txt*/
 			try {
 				loadFile.LoadDatabase(path);
 			} catch (IOException e) {

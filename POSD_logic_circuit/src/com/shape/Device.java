@@ -23,21 +23,25 @@ public class Device {
 	public static void addinputPin(int pin) {
 		iPins.add(pin);
 	}
-	
+	public static void CleariPin() {
+		iPins.clear();
+		for(int i=0;i< LogicSimulator.circuit.size();i++) {
+			LogicSimulator.circuit.get(i).gateVector.ClearGateVector();
+		}
+	}
 	public static int iPin() {
+
 		CircuitMap finalcircutMap = new CircuitMap();
 		//iPin() 處理for iPins 第i個iPin 尋找 iPinST=i inputType=0 此值放進不同的gate的inputArray裡
 		for(int i=0;i< Device.iPins.size(); i++) {
 	        for(int j=0; j<LogicSimulator.circuit.size(); j++) {
 	        	if(LogicSimulator.circuit.get(j).inputType==0) {
 	        		if((i+1) == LogicSimulator.circuit.get(j).iPinST) {
-	        			
 	        			LogicSimulator.circuit.get(j).gateVector.addinputValueArray(Device.iPins.get(i));
 		        	}
 	        	}
 	        }
 		}
-		//Show(finalcircutMap);
 		for(int i=0; i<LogicSimulator.circuit.size(); i++) {
         	CircuitMap circutMap  = LogicSimulator.circuit.get(i);
         	GateVector gateVector = circutMap.gateVector;
@@ -45,14 +49,12 @@ public class Device {
         		finalcircutMap = oPin(finalcircutMap);
         	}
 		}
-		
-        Show(finalcircutMap);
-        System.out.println("result = " + finalcircutMap.gateVector.getoutputValueArrayItem(0));
+//        Show(finalcircutMap);
+//        System.out.println("result = " + finalcircutMap.gateVector.getoutputValueArrayItem(0));
         return finalcircutMap.gateVector.getoutputValueArrayItem(0);
 	}
 
 	public static CircuitMap oPin(CircuitMap finalcircutMap) {
-		
 		//現在每個gate都有一些input(從iPins直接傳來的) 接著尋找gate inputValueArray.length() >= inputCount 但 outputValueArray還是空的
         for(int i=0; i<LogicSimulator.circuit.size(); i++) {
         	CircuitMap circutMap  = LogicSimulator.circuit.get(i);
@@ -62,14 +64,10 @@ public class Device {
         		//把gate:A 的所有已存的input丟進gate(ANDORNOT) 進行運算 得出一個output(此題限制一個output) 放在outputValueArray
         		int result = -1;
         		switch (circutMap.gateType) {
-        		case 1:/* AND */
-        			result = gateAND(gateVector.inputValueArray);break;
-        		case 2:/* OR */
-        			result = gateOR(gateVector.inputValueArray);break;
-        		case 3:/* NOT */
-        			result = gateNot(gateVector.inputValueArray);break;
-        		default:
-        			System.out.println("偵測到未定義的Gate類型");break;
+        		case 1:result = gateAND(gateVector.inputValueArray);break;
+        		case 2:result = gateOR(gateVector.inputValueArray); break;
+        		case 3:result = gateNot(gateVector.inputValueArray);break;
+        		default:System.out.println("偵測到未定義的Gate類型");break;
         		}
         		gateVector.addoutputValueArray(result);
         		gateVector.addoutputCount(1);
@@ -81,53 +79,38 @@ public class Device {
         			if(circutMap2.gateST == circutMap.gate && circutMap2.inputType == 1) {
         				int newInputValue = gateVector.getoutputValueArrayItem(0);
         				gateVector2.addinputValueArray(newInputValue);
-        				
         			}
         		}
         	}
-        	
         }
         return finalcircutMap;
 	}
 	public static int gateNot(List<Integer> inputArray) {
 		int input = inputArray.get(0);
 		switch (input) {
-		case 0:
-			return 1;
-		case 1:
-			return 0;
-		default:
-			return -1;
+		case 0:return 1;
+		case 1:return 0;
+		default:return -1;
 		}
 	}
 	public static int gateAND(List<Integer> inputArray) {
 		int result;
 		int total = 0;
-		for(int element : inputArray) {
-			 total += element;
-	    }
-		if(total != inputArray.size()) {
-			result = 0;
-		}else {
-			result = 1;
-		}
+		for(int element : inputArray) { total += element; }
+		if(total != inputArray.size()) {result = 0;}
+		else {result = 1;}
 		return result;
 	}
 	public static int gateOR(List<Integer> inputArray) {
 		int result;
 		int total = 0;
-		for(int element : inputArray) {
-			 total += element;
-	    }
-		if(total == 0) {
-			result = 0;
-		}else {
-			result = 1;
-		}
+		for(int element : inputArray) {total += element; }
+		if(total == 0) {result = 0;}
+		else {result = 1;}
 		return result;
 	}
 	
-	public static void Show(CircuitMap finalcircutMap) {
+	/*public static void Show(CircuitMap finalcircutMap) {
 		String [] attribute = new String[]{"gate", "gateType" , "inputType" , "iPinST" , "gateST", "inputCount" , "inputValueArray"};
 		System.out.println("["+classname+"] =>");      	
 		System.out.format("%s %s %s %s %s %s %s" , attribute[0] , attribute[1] , attribute[2] , attribute[3] , attribute[4] , attribute[5] , attribute[6]);
@@ -152,5 +135,5 @@ public class Device {
         }
         //System.out.println("result = " + finalcircutMap.gateVector.getoutputValueArrayItem(0));
     
-	}
+	}*/
 }

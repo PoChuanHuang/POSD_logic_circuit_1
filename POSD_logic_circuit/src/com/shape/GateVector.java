@@ -42,4 +42,9 @@ public class GateVector {
 	public int getoutputValueArrayItem(int index) {
 		return outValueArray.get(index);
 	}
+	public void ClearGateVector() {
+		outputCount = 0;
+		inputValueArray.clear();
+		outValueArray.clear();
+	}
 }
